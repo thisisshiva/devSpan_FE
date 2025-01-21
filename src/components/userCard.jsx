@@ -1,7 +1,9 @@
-const FeedCards = ({user}) => {
-    const {firstName, lastName, photoUrl,about,age,gender, skills} = user
+const UserCards = ({user}) => {
+
+    const {firstName, lastName, photoUrl,about,age,gender, skills} = user;
     
   return (
+    user &&(
     <>
       <div className="card bg-base-300 w-96 shadow-xl">
         <figure>
@@ -12,7 +14,7 @@ const FeedCards = ({user}) => {
         </figure>
         <div className="card-body">
           <h2 className="card-title">{firstName} {lastName}</h2>
-          {age && gender && <p>{age+" "+gender}</p>}
+          {age && gender && <p>{age + ", " + gender}</p>}
           <p>{skills}</p>
           <p>{about}</p>
           <div className="card-actions justify-center my-4">
@@ -21,8 +23,8 @@ const FeedCards = ({user}) => {
           </div>
         </div>
       </div>
-    </>
+    </>)
   );
 };
 
-export default FeedCards;
+export default UserCards;
