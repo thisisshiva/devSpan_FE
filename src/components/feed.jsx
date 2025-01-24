@@ -25,6 +25,10 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if(!feed) return;
+  
+  if(feed.length === 0) return <h1 className="text-xl font-semibold text-center">Feed is Empty</h1>
+
   return (
     feed && (
       <div className="flex columns-1 justify-center my-7">

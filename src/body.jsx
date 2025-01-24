@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./components/navbar";
-import Footer from "./components/footer";
+// import Footer from "./components/footer";
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "./utils/constant";
@@ -15,6 +15,7 @@ const Body = () => {
   const userData = useSelector((store)=>store.user)
 
   const fetchUser = async () => {
+    if(userData) return;
     try{
       const res = await axios.get(BASE_URL+"/profile",{
         withCredentials: true,
@@ -30,9 +31,7 @@ const Body = () => {
   }
 
   useEffect(()=>{
-    if(!userData){
       fetchUser();
-    }
   },[])
 
 
