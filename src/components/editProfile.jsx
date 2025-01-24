@@ -8,8 +8,8 @@ import { addUser } from "../utils/userSlice";
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
+  const [age, setAge] = useState(user.age || " ");
+  const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about);
   const [skills, setSkills] = useState(user.skills);
   const [photoUrl, setPhoto] = useState(user.photoUrl);
@@ -19,15 +19,15 @@ const EditProfile = ({ user }) => {
   const dispatch = useDispatch();
 
   const saveUser = async () => {
-    // setError(" ")
+    setError(" ")
     try {
-      const res = await axios.post(
+      const res = await axios.patch(
         BASE_URL + "/profile/edit",
-        { firstName, lastName, photoUrl, gender, age, skills, about },
+        { firstName, lastName, photoUrl, age, gender, skills, about },
         { withCredentials: true }
       );
 
-      dispatch(addUser(res.data.data));
+      dispatch(addUser(res?.data?.data));
 
       setToast(true)
       setTimeout(() => {
@@ -45,7 +45,7 @@ const EditProfile = ({ user }) => {
       <div className="flex justify-center mx-12">
         <div className="card bg-base-300 w-96 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title justify-center pb-4 ">Login</h2>
+            <h2 className="card-title justify-center pb-4 ">Edit Profile</h2>
             <div>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -91,13 +91,12 @@ const EditProfile = ({ user }) => {
                 <div className="label">
                   <span className="label-text">Gender:</span>
                 </div>
-                <input
-                  type="text"
-                  placeholder=""
-                  className="input input-bordered w-full max-w-xs"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                />
+                <select className="select select-bordered w-full max-w-xs" value={gender} onChange={(e)=>setGender(e.target.value)}>
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
                 <div className="label">
                   <span className="label-text">Skills:</span>
                 </div>
@@ -111,13 +110,13 @@ const EditProfile = ({ user }) => {
                 <div className="label">
                   <span className="label-text">About:</span>
                 </div>
-                <input
+                <textarea
                   type="text"
                   placeholder=""
                   className="input input-bordered w-full max-w-xs"
                   value={about}
                   onChange={(e) => setAbout(e.target.value)}
-                />
+                ></textarea>
               </label>
             </div>
             <p className="text-red-700">{error}</p>
