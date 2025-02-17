@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error,setError] = useState('')
 
-  const [isLoginForm, setIsLogin] = useState(false);
+  const [isLoginForm, setIsLogin] = useState(true);
   const [firstName,setFirstName] = useState('')
   const [lastName,setLastName] = useState('')
 
@@ -29,12 +29,11 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      dispatch( addUser(res.data) )
+      dispatch(addUser(res.data) )
       return navigate("/")
     }
     catch(err){
-      setError(err.response.data)
-      console.error(err)
+      setError(err?.response?.data || "something went wrong")
     }
   };
 
@@ -44,9 +43,9 @@ const Login = () => {
 
       console.log(res.data);
       dispatch(addUser(res.data.data))
-      navigate('/profile')
+      return navigate('/profile')
     }catch(err){
-      console.log(err.message);
+      setError(err?.response?.data || "something went wrong")
       
     }
   }
